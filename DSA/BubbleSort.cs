@@ -47,6 +47,11 @@ public class IntList : List<int>, IEquatable<IntList>
 
 public class BubbleSort: ITest
 {
+    public string Name()
+    {
+        return "BubbleSort";
+    }
+
     private static IntList Implementation(IntList list) {
         for (var i = 0; i < list.Count; i++)
         {
@@ -63,7 +68,7 @@ public class BubbleSort: ITest
         return list;
     }
 
-    public void RunTests()
+    public bool RunTests()
     {
         var tests = new Testing<IntList>();
         
@@ -71,5 +76,7 @@ public class BubbleSort: ITest
         tests.Assert(Implementation([1, 3, 2]), [1, 2, 3]);
         tests.Assert(Implementation([6, 2, 6, 9, 3]), [2, 3, 6, 6, 9]);
         tests.Assert(Implementation([0, 4, 7, 3, 2, 2, 5, 1, 4, 9]), [0, 1, 2, 2, 3, 4, 4, 5, 7, 9]);
+
+        return tests.Result;
     }
 }

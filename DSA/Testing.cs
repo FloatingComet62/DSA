@@ -2,12 +2,14 @@
 
 public interface ITest
 {
-    public void RunTests();
+    public String Name();
+    public bool RunTests();
 }
 
 public class Testing<T> where T: IEquatable<T>
 {
     private uint _iteration = 0;
+    public bool Result = true;
     
     public void Assert(T left, T right)
     {
@@ -15,20 +17,19 @@ public class Testing<T> where T: IEquatable<T>
         this._iteration += 1;
         if (left.Equals(right))
         {
-            var oldColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Success");
-            Console.ForegroundColor = oldColor;
+            _ = new ColorPrinting(ConsoleColor.Green, () =>
+            {
+                Console.WriteLine($"Success");
+            });
             return;
         }
 
+        _ = new ColorPrinting(ConsoleColor.Red, () =>
         {
-            var oldColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Failed");
-            Console.ForegroundColor = oldColor;
-        }
+        });
         
-        Console.WriteLine($"{left} and {right} don't match");
+        Console.WriteLine($" {left} and {right} don't match");
+        this.Result = false;
     }
 }
