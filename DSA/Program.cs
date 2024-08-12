@@ -1,6 +1,6 @@
 ﻿using DSA;
 
-List<ITest> programs = [new BubbleSort()];
+List<ITest> programs = [new SelectionSort()];
 
 foreach (var program in programs)
 {
