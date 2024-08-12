@@ -1,6 +1,6 @@
 ﻿using DSA;
 
-List<ITest> programs = [new SelectionSort()];
+List<ITest> programs = [new InsertionSort()];
 
 foreach (var program in programs)
 {
@@ -13,7 +13,7 @@ void HandleProgram(ITest program)
     Console.WriteLine($"Running {program.Name()} Tests");
     if (!program.RunTests())
     {
-        Console.WriteLine($"{program.Name()} Tests ");
+        Console.Write($"{program.Name()} Tests ");
         _ = new ColorPrinting(ConsoleColor.Red, () =>
         {
             Console.WriteLine("Failed");

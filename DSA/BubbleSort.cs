@@ -52,7 +52,8 @@ public class BubbleSort: ITest
         return "BubbleSort";
     }
 
-    private static IntList Implementation(IntList list) {
+    private static IntList Implementation(IntList list)
+    {
         for (var i = 0; i < list.Count; i++)
         {
             for (var j = 0; j < list.Count - i - 1; j++)

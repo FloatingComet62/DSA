@@ -8,7 +8,7 @@ public interface ITest
 
 public class Testing<T> where T: IEquatable<T>
 {
-    private uint _iteration = 0;
+    private uint _iteration;
     public bool Result = true;
     
     public void Assert(T left, T right)

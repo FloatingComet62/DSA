@@ -1,30 +1,30 @@
 ﻿namespace DSA;
 
-public class SelectionSort: ITest
+public class InsertionSort: ITest
 {
     public string Name()
     {
-        return "SelectionSort";
+        return "InsertionSort";
     }
 
     private static IntList Implementation(IntList list)
     {
-        for (var i = 0; i < list.Count; i++)
+        for (var i = 1; i < list.Count; i++)
         {
-            var minValue = list[i];
-            var minValueIndex = i;
+            var insertIndex = i;
+            var currentValue = list[i];
             
-            for (var j = i+1; j < list.Count; j++)
+            for (var j = i - 1; j >= 0; j--)
             {
-                if (list[j] < minValue)
+                if (list[j] <= currentValue)
                 {
-                    minValue = list[j];
-                    minValueIndex = j;
+                    break;
                 }
+                list[j + 1] = list[j];
+                insertIndex = j;
             }
-            (list[i], list[minValueIndex]) = (list[minValueIndex], list[i]);
+            list[insertIndex] = currentValue;
         }
-
         return list;
     }
 
