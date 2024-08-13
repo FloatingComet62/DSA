@@ -7,8 +7,9 @@ List<ITest> allPrograms =
     new InsertionSort(),
     new QuickSort(),
     new CountingSort(),
+    new RadixSort(),
 ];
-List<ITest> currentPrograms = [new CountingSort()];
+List<ITest> currentPrograms = [new RadixSort()];
 
 foreach (var program in currentPrograms)
 {
