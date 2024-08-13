@@ -6,8 +6,9 @@ List<ITest> allPrograms =
     new SelectionSort(),
     new InsertionSort(),
     new QuickSort(),
+    new CountingSort(),
 ];
-List<ITest> currentPrograms = [new QuickSort()];
+List<ITest> currentPrograms = [new CountingSort()];
 
 foreach (var program in currentPrograms)
 {
