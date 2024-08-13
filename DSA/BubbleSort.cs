@@ -54,9 +54,9 @@ public class BubbleSort: ITest
 
     private static IntList Implementation(IntList list)
     {
-        for (var i = 0; i < list.Count; i++)
+        foreach (var i in Enumerable.Range(0, list.Count))
         {
-            for (var j = 0; j < list.Count - i - 1; j++)
+            foreach (var j in Enumerable.Range(0, list.Count - i - 1))
             {
                 if (list[j] <= list[j + 1])
                 {

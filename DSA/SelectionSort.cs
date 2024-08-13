@@ -9,18 +9,19 @@ public class SelectionSort: ITest
 
     private static IntList Implementation(IntList list)
     {
-        for (var i = 0; i < list.Count; i++)
+        foreach (var i in Enumerable.Range(0, list.Count))
         {
             var minValue = list[i];
             var minValueIndex = i;
             
-            for (var j = i+1; j < list.Count; j++)
+            for (var j = i + 1; j < list.Count; j++)
             {
-                if (list[j] < minValue)
+                if (list[j] >= minValue)
                 {
-                    minValue = list[j];
-                    minValueIndex = j;
+                    continue;
                 }
+                minValue = list[j];
+                minValueIndex = j;
             }
             (list[i], list[minValueIndex]) = (list[minValueIndex], list[i]);
         }

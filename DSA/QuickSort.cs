@@ -12,7 +12,7 @@ public class QuickSort: ITest
         var pivot = array[high];
         var i = low - 1;
 
-        for (var j = low; j < high; j++)
+        foreach (var j in Enumerable.Range(low, high - low))
         {
             if (array[j] > pivot)
             {

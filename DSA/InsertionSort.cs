@@ -9,7 +9,7 @@ public class InsertionSort: ITest
 
     private static IntList Implementation(IntList list)
     {
-        for (var i = 1; i < list.Count; i++)
+        foreach (var i in Enumerable.Range(1, list.Count - 1))
         {
             var insertIndex = i;
             var currentValue = list[i];

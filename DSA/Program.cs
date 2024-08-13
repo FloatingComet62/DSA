@@ -11,7 +11,7 @@ List<ITest> allPrograms =
 ];
 List<ITest> currentPrograms = [new RadixSort()];
 
-foreach (var program in currentPrograms)
+foreach (var program in allPrograms)
 {
     HandleProgram(program);
 }
