@@ -1,8 +1,15 @@
 ﻿using DSA;
 
-List<ITest> programs = [new InsertionSort()];
+List<ITest> allPrograms =
+[
+    new BubbleSort(),
+    new SelectionSort(),
+    new InsertionSort(),
+    new QuickSort(),
+];
+List<ITest> currentPrograms = [new QuickSort()];
 
-foreach (var program in programs)
+foreach (var program in currentPrograms)
 {
     HandleProgram(program);
 }
