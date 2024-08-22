@@ -8,10 +8,11 @@ List<ITest> allPrograms =
     new QuickSort(),
     new CountingSort(),
     new RadixSort(),
+    new AlienDictionary(),
 ];
-List<ITest> currentPrograms = [new RadixSort()];
+List<ITest> currentPrograms = [new AlienDictionary()];
 
-foreach (var program in allPrograms)
+foreach (var program in currentPrograms)
 {
     HandleProgram(program);
 }

@@ -9,6 +9,10 @@ public class InsertionSort: ITest
 
     private static IntList Implementation(IntList list)
     {
+        if (list.Count <= 1)
+        {
+            return list;
+        }
         foreach (var i in Enumerable.Range(1, list.Count - 1))
         {
             var insertIndex = i;
