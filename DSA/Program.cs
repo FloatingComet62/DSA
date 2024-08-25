@@ -39,12 +39,13 @@ using DSA.Structures;
 //     });
 // }
 
-var x = new Graph(5);
+var x = new Graph(7);
 x.AddEdge(0, 1);
-x.AddEdge(1, 2);
+x.AddEdge(0, 2);
 x.AddEdge(1, 3);
-x.AddEdge(2, 3);
-x.AddEdge(3, 4);
+x.AddEdge(2, 4);
+x.AddEdge(1, 5);
+x.AddEdge(2, 6);
 
 // var coloring = new GraphColoring(x);
 // var result = coloring.GreedyColoring();
@@ -71,3 +72,14 @@ x.AddEdge(3, 4);
 // {
 //     Console.WriteLine($"{f}");
 // }
+
+var traversal = new Traversal(x);
+foreach (var node in traversal.DepthFirstSearch(0))
+{
+    Console.WriteLine(node);
+}
+Console.WriteLine("---");
+foreach (var node in traversal.BreastFirstSearch(0))
+{
+    Console.WriteLine(node);
+}

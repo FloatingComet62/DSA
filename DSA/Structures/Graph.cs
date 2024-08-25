@@ -92,16 +92,15 @@ public class GraphColoring(Graph graph)
                     .ToArray()
             )
             .ToArray();
-    private readonly int _numberOfNodes = graph.NumberOfNodes;
 
     public bool CanColor(int numberOfColors)
     {
-        var colors = Enumerable.Range(0, _numberOfNodes).Select(_ => 0).ToArray();
+        var colors = Enumerable.Range(0, graph.NumberOfNodes).Select(_ => 0).ToArray();
         return SolveColoring(0);
 
         bool SolveColoring(int v)
         {
-            if (v == _numberOfNodes)
+            if (v == graph.NumberOfNodes)
             {
                 return true;
             }
@@ -110,7 +109,7 @@ public class GraphColoring(Graph graph)
                 var color in Enumerable
                      .Range(1, numberOfColors+1)
                      .Where(color => !Enumerable
-                         .Range(0, _numberOfNodes)
+                         .Range(0, graph.NumberOfNodes)
                          .Select(i => _matrix[v][i] && color == colors[i])
                          .Contains(true)
                      )
@@ -131,10 +130,10 @@ public class GraphColoring(Graph graph)
 
     public int[] GreedyColoring()
     {
-        var result = Enumerable.Range(0, _numberOfNodes).Select(i => i == 0 ? 0 : -1).ToArray();
-        foreach (var node in Enumerable.Range(1, _numberOfNodes - 1))
+        var result = Enumerable.Range(0, graph.NumberOfNodes).Select(i => i == 0 ? 0 : -1).ToArray();
+        foreach (var node in Enumerable.Range(1, graph.NumberOfNodes - 1))
         {
-            var available = Enumerable.Range(0, _numberOfNodes).Select(_ => true).ToArray();
+            var available = Enumerable.Range(0, graph.NumberOfNodes).Select(_ => true).ToArray();
             foreach (var neighborNode in _matrix[node]
                  .Select((n, i) => (i, n))
                  .Where(data => data.n)
@@ -144,7 +143,7 @@ public class GraphColoring(Graph graph)
                 available[result[neighborNode]] = false;
             }
 
-            var color = Enumerable.Range(0, _numberOfNodes).First(color => available[color]);
+            var color = Enumerable.Range(0, graph.NumberOfNodes).First(color => available[color]);
             result[node] = color;
         }
 
@@ -155,12 +154,11 @@ public class GraphColoring(Graph graph)
 public class TravellingSalesMan(Graph graph)
 {
     private readonly float[][] _matrix = graph.GetBidirectional().AdjacencyMatrix;
-    private readonly int _numberOfNodes = graph.NumberOfNodes;
 
     public float Solve(int startingNode)
     {
         var visited = Enumerable
-            .Range(0, _numberOfNodes)
+            .Range(0, graph.NumberOfNodes)
             .Select((_, i) => i == startingNode)
             .ToArray();
         
@@ -170,14 +168,14 @@ public class TravellingSalesMan(Graph graph)
 
         void SolveRecursive(int currentPosition, int count, float cost)
         {
-            if (count == _numberOfNodes && _matrix[currentPosition][startingNode] > 0)
+            if (count == graph.NumberOfNodes && _matrix[currentPosition][startingNode] > 0)
             {
                 result = float.Min(result, cost + _matrix[currentPosition][startingNode]);
                 return;
             }
 
             foreach (var i in Enumerable
-                 .Range(0, _numberOfNodes)
+                 .Range(0, graph.NumberOfNodes)
                  .Where(i => !visited[i] && _matrix[currentPosition][i] > 0)
              )
             {
@@ -191,32 +189,29 @@ public class TravellingSalesMan(Graph graph)
 
 public class ShortestPath(Graph graph)
 {
-    private readonly float[][] _matrix = graph.AdjacencyMatrix;
-    private readonly int _numberOfNodes = graph.NumberOfNodes;
-
     public float[] Dijkstra(int startingNode)
     {
         var distancesFromStartingNode = Enumerable
-            .Range(0, _numberOfNodes)
+            .Range(0, graph.NumberOfNodes)
             .Select((_, i) => i == startingNode ? 0 : float.PositiveInfinity)
             .ToArray();
-        var pickedSet = Enumerable.Range(0, _numberOfNodes).Select(_ => false).ToArray();
+        var pickedSet = Enumerable.Range(0, graph.NumberOfNodes).Select(_ => false).ToArray();
 
-        foreach (var _ in Enumerable.Range(0, _numberOfNodes - 1))
+        foreach (var _ in Enumerable.Range(0, graph.NumberOfNodes - 1))
         {
             var from = MinimumDistance();
             pickedSet[from] = true;
             foreach (var to in Enumerable
-                .Range(0, _numberOfNodes)
+                .Range(0, graph.NumberOfNodes)
                 .Where(to =>
                     !pickedSet[to]
-                    && _matrix[from][to] != 0
+                    && graph.AdjacencyMatrix[from][to] != 0
                 )
             )
             {
                 distancesFromStartingNode[to] = float.Min(
                     distancesFromStartingNode[to],
-                    distancesFromStartingNode[from] + _matrix[from][to]
+                    distancesFromStartingNode[from] + graph.AdjacencyMatrix[from][to]
                 );
             }
         }
@@ -228,7 +223,7 @@ public class ShortestPath(Graph graph)
             var min = float.PositiveInfinity;
             var minIndex = -1;
             foreach (var vertex in Enumerable
-                 .Range(0, _numberOfNodes)
+                 .Range(0, graph.NumberOfNodes)
                  .Where(vertex => !pickedSet[vertex] && distancesFromStartingNode[vertex] <= min)
              )
             {
@@ -243,18 +238,18 @@ public class ShortestPath(Graph graph)
     public float[] BellmanFord(int startingNode)
     {
         var distancesFromStartingNode = Enumerable
-            .Range(0, _numberOfNodes)
+            .Range(0, graph.NumberOfNodes)
             .Select((_, i) => i == startingNode ? 0 : float.PositiveInfinity)
             .ToArray();
 
         var edges = graph.GetEdges().ToArray();
-        foreach (var _ in Enumerable.Range(1, _numberOfNodes - 1))
+        foreach (var _ in Enumerable.Range(1, graph.NumberOfNodes - 1))
         {
             foreach (var edge in edges)
             {
                 var from = edge[0];
                 var to = edge[1];
-                var weight = _matrix[from][to];
+                var weight = graph.AdjacencyMatrix[from][to];
                 
                 if (float.IsInfinity(distancesFromStartingNode[from]))
                 {
@@ -274,29 +269,84 @@ public class ShortestPath(Graph graph)
     public float[][] FloydWarshall()
     {
         var distances = Enumerable
-            .Range(0, _numberOfNodes)
+            .Range(0, graph.NumberOfNodes)
             .Select(i => Enumerable
-                .Range(0, _numberOfNodes)
+                .Range(0, graph.NumberOfNodes)
                 .Select(j =>
                 {
                     if (i == j)
                     {
                         return 0;
                     }
-                    return _matrix[i][j] == 0 ? float.PositiveInfinity : _matrix[i][j];
+                    return graph.AdjacencyMatrix[i][j] == 0 ?
+                        float.PositiveInfinity :
+                        graph.AdjacencyMatrix[i][j];
                 })
                 .ToArray())
             .ToArray();
-        foreach (var k in Enumerable.Range(0, _numberOfNodes))
+        foreach (var k in Enumerable.Range(0, graph.NumberOfNodes))
         {
-            foreach (var i in Enumerable.Range(0, _numberOfNodes))
+            foreach (var i in Enumerable.Range(0, graph.NumberOfNodes))
             {
-                foreach (var j in Enumerable.Range(0, _numberOfNodes))
+                foreach (var j in Enumerable.Range(0, graph.NumberOfNodes))
                 {
                     distances[i][j] = float.Min(distances[i][j], distances[i][k] + distances[k][j]);
                 }
             }
         }
         return distances;
+    }
+}
+
+public class Traversal(Graph graph)
+{
+    public int[] DepthFirstSearch(int sourceNode)
+    {
+        List<int> output = [];
+        var visited = Enumerable.Range(0, graph.NumberOfNodes).Select(_ => false).ToArray();
+        
+        SearchRecursive(sourceNode);
+        
+        return output.ToArray();
+
+        void SearchRecursive(int currentNode)
+        {
+            visited[currentNode] = true;
+            output.Add(currentNode);
+            foreach (var (_, nextNode) in graph
+                .AdjacencyMatrix[currentNode]
+                .Select((weight, node) => (weight, node))
+                .Where(data => data.weight > 0 && !visited[data.node])
+            )
+            {
+                SearchRecursive(nextNode);
+            }
+        }
+    }
+    public int[] BreastFirstSearch(int sourceNode)
+    {
+        List<int> output = [];
+        var queue = new Queue<int>();
+        var visited = Enumerable.Range(0, graph.NumberOfNodes).Select(_ => false).ToArray();
+        visited[sourceNode] = true;
+        queue.Enqueue(sourceNode);
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            output.Add(current);
+
+            foreach (var (_, nodeIndex) in graph
+                .AdjacencyMatrix[current]
+                .Select((weight, nodeIndex) => (weight, nodeIndex))
+                .Where(data => data.weight > 0 && !visited[data.nodeIndex])
+            )
+            {
+                visited[nodeIndex] = true;
+                queue.Enqueue(nodeIndex);
+            }
+        }
+
+        return output.ToArray();
     }
 }
